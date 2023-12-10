@@ -1,0 +1,2 @@
+version: 2
+jobs:build:docker:- image: circleci/node:10steps:- run: echo "A first hello"- run: npm -v
