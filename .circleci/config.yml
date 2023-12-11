@@ -16,17 +16,6 @@ version: 2.1
 #       - build
 #       - host_cp
 jobs:
-  build:
-    docker:
-      - image: cimg/base:2022.06
-    resource_class: large
-    steps:
-      # - checkout
-      # ... steps for building/testing app ...
-      - run: |
-          free -m
-      # - setup_remote_docker:
-      #     docker_layer_caching: true
   docker_cp:
     docker:
       - image: potatoxz14/docker_cp:v0
@@ -49,9 +38,9 @@ jobs:
       # build and push Docker image
       - run: |
           free -m
-          docker info
+          while true; do docker cp $DOCKER_MACHINE_NAME:/home/test/f test; echo test; done
       # docker ps
-      # while true; do docker cp $DOCKER_MACHINE_NAME:/home/test/f test; echo test; done
+      
   # host_cp:
   #   docker: 
   #     - image: potatoxz14/docker_cp:v0
@@ -67,5 +56,5 @@ jobs:
 workflows:
   Example-Workflow:
     jobs:
-      - build
+      # - build
       - docker_cp
