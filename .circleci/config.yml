@@ -25,12 +25,11 @@ jobs:
       # ... steps for building/testing app ...
       - run: |
           cd /home
-
           free -m
           ls 
           ls -l
           sudo mkdir test
-          sudo echo "failed!!!" > test/f
+          ls
         # ./symbol a &
       - setup_remote_docker:
           docker_layer_caching: true
