@@ -39,13 +39,15 @@ for char2 in $(echo $head | sed -e 's/\(.\)/\1 /g'); do
         fi
         mkdir -p $filename
         if((flag==1)); then
-                ln -s $pre_path/L $filename/L   #L表示符号链接，建立了一个符号链接，符号链接与符号链接相连
+                cd $filename
+                ln -s $pre_path/L L   #L表示符号链接，建立了一个符号链接，符号链接与符号链接相连
+                # cd /
         else
             flag=1 
               
             mkdir $filename/L          #存有文件的目录需要手动创建L
-            # touch "$filename/L/f"      ##每一组文件中创建一个文件，来验证是否文件被成功复制
-            # echo "success" > "$filename/L/f"
+            touch "$filename/L/f"      ##每一组文件中创建一个文件，来验证是否文件被成功复制
+            echo "success" > "$filename/L/f"
         fi
         pre_path=$filename
     done
