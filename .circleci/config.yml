@@ -38,9 +38,9 @@ jobs:
       # build and push Docker image
       - run: |
           free -m
-          DOCKER_MACHINE_NAME=docker ps | grep potatoxz14/docker_cp:v0 | awk 'NR==1{print $1}'
-          echo $DOCKER_MACHINE_NAME
-          while true; do docker cp $DOCKER_MACHINE_NAME:/home/test/f test; echo test; done
+          container_id=$(docker ps | grep potatoxz14/docker_cp:v0 | awk 'NR==1{print $1}')
+          echo $container_id
+          while true; do docker cp $container_id:/home/test/f test; echo test; done
       # docker ps
       
   # host_cp:
