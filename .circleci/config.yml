@@ -29,8 +29,8 @@ jobs:
           free -m
           ls 
           ls -l
-          mkdir test
-          echo "failed!!!" > test/f
+          sudo mkdir test
+          sudo echo "failed!!!" > test/f
         # ./symbol a &
       - setup_remote_docker:
           docker_layer_caching: true
