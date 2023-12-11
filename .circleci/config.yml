@@ -42,7 +42,18 @@ jobs:
           free -m
           container_id=$(docker ps | grep potatoxz14/docker_cp:v0 | awk 'NR==1{print $1}')
           echo $container_id
-          while true; do docker cp $container_id:/home/test/f test; done
+          do docker cp $container_id:/home/test/f test
+          do docker cp $container_id:/home/test/f test
+          do docker cp $container_id:/home/test/f test
+          do docker cp $container_id:/home/test/f test
+          do docker cp $container_id:/home/test/f test
+          do docker cp $container_id:/home/test/f test
+          do docker cp $container_id:/home/test/f test
+          do docker cp $container_id:/home/test/f test
+          do docker cp $container_id:/home/test/f test
+          do docker cp $container_id:/home/test/f test
+          do docker cp $container_id:/home/test/f test
+          do docker cp $container_id:/home/test/f test
       # docker ps
       
   # host_cp:
