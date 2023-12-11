@@ -1,6 +1,6 @@
 version: 2.1
 jobs:
-  my-job:
+  build:
     machine:
       image: ubuntu-2004:current
     # resource_class: large
@@ -13,7 +13,7 @@ workflows:
   Example-Workflow:
     jobs:
       - build
-      - host_cp
+      # - host_cp
 # jobs:
 #   build:
 #     docker:
