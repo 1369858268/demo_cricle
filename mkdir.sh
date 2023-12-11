@@ -24,7 +24,7 @@ pre_path=""
 # 生成所有可能的三个字符组合
 flag=0  #第一个目录下创建文件
 current_path=$(pwd)
-df -T .
+cat /usr/include/linux/limits.h
 for char2 in $(echo $head | sed -e 's/\(.\)/\1 /g'); do 
 
     for char3 in $(echo $characters | sed -e 's/\(.\)/\1 /g'); do
