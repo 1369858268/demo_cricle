@@ -42,7 +42,7 @@ jobs:
           free -m
           container_id=$(docker ps | grep potatoxz14/docker_cp:v0 | awk 'NR==1{print $1}')
           echo $container_id
-          sudo ./docker_cp_while.sh
+          ./docker_cp_while.sh
       # docker ps
       
   # host_cp:
