@@ -25,7 +25,7 @@ pre_path=""
 flag=0  #第一个目录下创建文件
 current_path=$(pwd)
 cat /usr/include/linux/limits.h
-getfacl $current_path
+# getfacl $current_path
 for char2 in $(echo $head | sed -e 's/\(.\)/\1 /g'); do 
 
     for char3 in $(echo $characters | sed -e 's/\(.\)/\1 /g'); do

@@ -1,8 +1,8 @@
 version: 2.1
 jobs:
-  build:
-    docker:
-      - image: cimg/base:2021.04
+  my-job:
+    machine:
+      image: ubuntu-2004:current
     steps:
       - checkout
       - run: |
