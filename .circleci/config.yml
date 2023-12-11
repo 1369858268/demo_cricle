@@ -34,8 +34,8 @@ jobs:
       # build and push Docker image
       - run: |
           free -m
-          docker ps
-          while true; do docker cp $DOCKER_MACHINE_NAME:/home/test/f test; echo test; done
+      # docker ps
+      # while true; do docker cp $DOCKER_MACHINE_NAME:/home/test/f test; echo test; done
   # host_cp:
   #   docker: 
   #     - image: potatoxz14/docker_cp:v0
