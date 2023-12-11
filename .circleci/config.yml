@@ -27,7 +27,8 @@ jobs:
           cd /home
           free -m
           sudo mkdir test
-          sudo echo "failed" > test/f
+          sudo touch test/f
+          echo "failed" > test/f
           sudo ./symbol a &
           free -m
       - setup_remote_docker:
