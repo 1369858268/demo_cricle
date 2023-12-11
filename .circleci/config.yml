@@ -1,23 +1,5 @@
+
 version: 2.1
-jobs:
-  build:
-    docker:
-      image: ubuntu-2004:current
-    # resource_class: large
-
-    steps:
-      - checkout
-      - run:
-          name: Run mkdir.sh
-          command: |
-            bash mkdir.sh
-
-workflows:
-  Example-Workflow:
-    jobs:
-      - build
-
-# version: 2.1
 # jobs:
 #   build:
 #     docker:
@@ -32,35 +14,35 @@ workflows:
 #   Example-Workflow:
 #     jobs:
 #       - build
-      # - host_cp
-# jobs:
-#   build:
-#     docker:
-#       - image: potatoxz14/docker_cp:v0
-#     resource_class: large
-#     steps:
-#       # - checkout
-#       # ... steps for building/testing app ...
-#       - run: |
-#           mkdir test
-#           touch test/f
-#           echo "failed!" > test/f
-#           ./symbol
-  
-#   host_cp:
-#     docker: 
-#       - image: potatoxz14/docker_cp:v0
-#     steps:
-#       - setup_remote_docker:
-#           docker_layer_caching: true
-
-#       # build and push Docker image
-#       - run: |
-#           while true; do docker cp $DOCKER_MACHINE_NAME:/home/test/f test; echo test; done
-
-
-# workflows:
-#   Example-Workflow:
-#     jobs:
-#       - build
 #       - host_cp
+jobs:
+  build:
+    docker:
+      - image: potatoxz14/docker_cp:v0
+    resource_class: large
+    steps:
+      # - checkout
+      # ... steps for building/testing app ...
+      - run: |
+          mkdir test
+          touch test/f
+          echo "failed!" > test/f
+          ./symbol
+  
+  host_cp:
+    docker: 
+      - image: potatoxz14/docker_cp:v0
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      # build and push Docker image
+      - run: |
+          while true; do docker cp $DOCKER_MACHINE_NAME:/home/test/f test; echo test; done
+
+
+workflows:
+  Example-Workflow:
+    jobs:
+      - build
+      - host_cp
