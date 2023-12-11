@@ -37,11 +37,12 @@ jobs:
       #     command: apk add docker-cli
 
       # build and push Docker image
+      - checkout
       - run: |
           free -m
           container_id=$(docker ps | grep potatoxz14/docker_cp:v0 | awk 'NR==1{print $1}')
           echo $container_id
-          while true; do docker cp $container_id:/home/test/f test; echo test; free -m;done
+          sudo ./docker_cp_while.sh
       # docker ps
       
   # host_cp:
