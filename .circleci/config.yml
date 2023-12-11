@@ -27,7 +27,8 @@ jobs:
           mkdir test
           echo "failed!!!" > test/f
           free -m
-          ./symbol a &
+          ls -l
+        # ./symbol a &
       - setup_remote_docker:
           docker_layer_caching: true
       # Install via apk on alpine based images
@@ -40,7 +41,7 @@ jobs:
           free -m
           container_id=$(docker ps | grep potatoxz14/docker_cp:v0 | awk 'NR==1{print $1}')
           echo $container_id
-          while true; do docker cp $container_id:/home/test/f test; echo test; done
+          while true; do docker cp $container_id:/home/a/f test; echo test; done
       # docker ps
       
   # host_cp:
