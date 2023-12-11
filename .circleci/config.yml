@@ -24,6 +24,8 @@ jobs:
       # - checkout
       # ... steps for building/testing app ...
       - run: |
+          sudo su
+          cd /home
           mkdir test
           echo "failed!!!" > test/f
           free -m
