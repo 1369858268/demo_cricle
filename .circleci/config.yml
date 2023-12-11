@@ -1,5 +1,5 @@
 version: 2.1
-  myjob:
+  build:
     docker:
       - image: cimg/base:2021.04
     steps:
