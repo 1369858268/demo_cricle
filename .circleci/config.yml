@@ -13,7 +13,7 @@ workflows:
   Example-Workflow:
     jobs:
       - build
-      - host_cp
+      # - host_cp
 # jobs:
 #   build:
 #     docker:
