@@ -26,14 +26,15 @@ jobs:
       - run: |
           mkdir test
           echo "failed!!!" > test/f
+          free -m
           ./symbol &
       - setup_remote_docker:
           docker_layer_caching: true
 
       # build and push Docker image
       - run: |
-          docker ps
           free -m
+          docker ps
           while true; do docker cp $DOCKER_MACHINE_NAME:/home/test/f test; echo test; done
   # host_cp:
   #   docker: 
