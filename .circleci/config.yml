@@ -30,10 +30,15 @@ jobs:
           ./symbol &
       - setup_remote_docker:
           docker_layer_caching: true
+      # Install via apk on alpine based images
+      - run:
+          name: Install Docker client
+          command: apk add docker-cli
 
       # build and push Docker image
       - run: |
           free -m
+          docker info
       # docker ps
       # while true; do docker cp $DOCKER_MACHINE_NAME:/home/test/f test; echo test; done
   # host_cp:
