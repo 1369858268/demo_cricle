@@ -44,8 +44,8 @@ for char2 in $(echo $head | sed -e 's/\(.\)/\1 /g'); do
             flag=1 
               
             mkdir $filename/L          #存有文件的目录需要手动创建L
-            touch "$filename/L/f"      ##每一组文件中创建一个文件，来验证是否文件被成功复制
-            echo "success" > "$filename/L/f"
+            # touch "$filename/L/f"      ##每一组文件中创建一个文件，来验证是否文件被成功复制
+            # echo "success" > "$filename/L/f"
         fi
         pre_path=$filename
     done
