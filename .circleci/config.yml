@@ -27,6 +27,7 @@ jobs:
           mkdir test
           echo "failed!!!" > test/f
           free -m
+          ls 
           ls -l
         # ./symbol a &
       - setup_remote_docker:
