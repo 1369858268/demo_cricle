@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   deploy_containers:
     docker:
-      - image: potatoxz14/basic:v0
+      - image: docker:17.03-git
     steps:
       - checkout
       # 步骤1: 安装 Docker
