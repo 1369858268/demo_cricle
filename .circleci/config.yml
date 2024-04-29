@@ -6,7 +6,12 @@ jobs:
       - image: potatoxz14/basic:v0
     steps:
       - checkout
-
+      # 步骤1: 安装 Docker
+      - run:
+          name: Install Docker
+          command: |
+            sudo apt update
+            sudo apt install -y docker.io
       # # 步骤1: 构建容器镜像
       # - run:
       #     name: Build Container 1
