@@ -5,6 +5,7 @@ jobs:
     docker:
       - image: cimg/base:2022.06
     steps:
+      - setup_remote_docker
       - checkout
       # 步骤1: 安装 Docker
       # 步骤1: 安装 Docker CLI
