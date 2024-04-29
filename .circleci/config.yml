@@ -8,12 +8,12 @@ jobs:
       - checkout
       # 步骤1: 安装 Docker
       # 步骤1: 安装 Docker CLI
-      - run:
-          name: Install Docker CLI
-          command: |
-            apt install curl -y
-            curl -fsSL https://get.docker.com -o get-docker.sh
-            sh get-docker.sh
+      # - run:
+      #     name: Install Docker CLI
+      #     command: |
+      #       apt install curl -y
+      #       curl -fsSL https://get.docker.com -o get-docker.sh
+      #       sh get-docker.sh
       # # 步骤1: 构建容器镜像
       # - run:
       #     name: Build Container 1
