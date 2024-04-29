@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   deploy_containers:
     docker:
-      - image: docker:17.03-git
+      - image: docker24
     steps:
       - checkout
       # 步骤1: 安装 Docker
