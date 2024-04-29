@@ -40,6 +40,7 @@ jobs:
           name: Check IPCS in Container 1
           command: |
             docker exec ipc_base ipcs
+            docker ps
 
       # # 步骤4: 运行 cat /sys/fs/cgroup/memory.current 命令
       # - run:
