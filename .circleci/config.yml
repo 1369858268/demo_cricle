@@ -31,12 +31,15 @@ jobs:
           command: |
             cat /sys/fs/cgroup/memory.current
             docker run -d --ipc=shareable --memory=100M --name ipc_base potatoxz14/basic:v0 sleep inf
+            docker exec ipc_base cat /sys/fs/cgroup/memory.current
+            docker exec ipc_base cat /sys/fs/cgroup/memory.max
             cat /sys/fs/cgroup/memory.current
 
       - run:
           name: Run Container 2
           command: |
-            docker run -it --ipc=container:ipc_base --memory=200M potatoxz14/defense_pressure:v2 /home/shm_create 1
+            docker run -it --ipc=container:ipc_base --memory=200M --name ipc_container potatoxz14/defense_pressure:v2 /home/shm_create 1
+            docker exec ipc_container cat /sys/fs/cgroup/memory.current
             cat /sys/fs/cgroup/memory.current
       # 步骤3: 进入容器1并运行命令
       - run:
@@ -45,6 +48,8 @@ jobs:
             docker exec ipc_base ipcs
             docker ps
             cat /sys/fs/cgroup/memory.current
+            docker exec ipc_base cat /sys/fs/cgroup/memory.current
+            docker exec ipc_base cat /sys/fs/cgroup/memory.max
 
       # # 步骤4: 运行 cat /sys/fs/cgroup/memory.current 命令
       # - run:
