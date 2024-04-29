@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   deploy_containers:
     docker:
-      - image: docker24
+      - image: circleci/classic:edge
     steps:
       - checkout
       # 步骤1: 安装 Docker
