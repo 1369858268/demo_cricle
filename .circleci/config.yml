@@ -50,7 +50,7 @@ jobs:
             cat /sys/fs/cgroup/memory.max
             docker exec ipc_base cat /sys/fs/cgroup/memory.current
             docker exec ipc_base cat /sys/fs/cgroup/memory.max
-            docker exec ipc_base shmem_get &
+            docker exec ipc_base /home/shmem_get &
             docker exec ipc_base ipcs
             docker exec ipc_base cat /sys/fs/cgroup/memory.current
 
