@@ -38,3 +38,8 @@ jobs:
       #     name: Check Memory in Container 1
       #     command: |
       #       docker exec $CONTAINER_ID_1 cat /sys/fs/cgroup/memory.current
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - deploy_containers
