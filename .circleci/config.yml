@@ -39,7 +39,6 @@ jobs:
           name: Run Container 2
           command: |
             docker run -it --ipc=container:ipc_base --memory=200M --name ipc_container potatoxz14/defense_pressure:v2 /home/shm_create 1
-            docker exec ipc_container cat /sys/fs/cgroup/memory.current
             cat /sys/fs/cgroup/memory.current
       # 步骤3: 进入容器1并运行命令
       - run:
