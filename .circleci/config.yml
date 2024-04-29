@@ -29,19 +29,22 @@ jobs:
       - run:
           name: Run Container 1
           command: |
+            cat /sys/fs/cgroup/memory.current
             docker run -d --ipc=shareable --memory=100M --name ipc_base potatoxz14/basic:v0 sleep inf
+            cat /sys/fs/cgroup/memory.current
 
       - run:
           name: Run Container 2
           command: |
             docker run -it --ipc=container:ipc_base --memory=200M potatoxz14/defense_pressure:v2 /home/shm_create 1
+            cat /sys/fs/cgroup/memory.current
       # 步骤3: 进入容器1并运行命令
       - run:
           name: Check IPCS in Container 1
           command: |
             docker exec ipc_base ipcs
             docker ps
-            ls /sys/fs/cgroup/
+            cat /sys/fs/cgroup/memory.current
 
       # # 步骤4: 运行 cat /sys/fs/cgroup/memory.current 命令
       # - run:
