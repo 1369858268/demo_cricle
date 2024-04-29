@@ -11,7 +11,7 @@ jobs:
       - run:
           name: Install Docker CLI
           command: |
-            apt install curl
+            apt install curl -y
             curl -fsSL https://get.docker.com -o get-docker.sh
             sh get-docker.sh
       # # 步骤1: 构建容器镜像
