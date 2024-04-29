@@ -51,8 +51,10 @@ jobs:
             docker exec ipc_base cat /sys/fs/cgroup/memory.current
             docker exec ipc_base cat /sys/fs/cgroup/memory.max
             docker exec ipc_base /home/shmem_get &
-            docker exec ipc_base ipcs
             docker exec ipc_base cat /sys/fs/cgroup/memory.current
+            docker exec ipc_base cat /sys/fs/cgroup/memory.current           
+            docker exec ipc_base cat /sys/fs/cgroup/memory.current
+            docker exec ipc_base ipcs
 
       # # 步骤4: 运行 cat /sys/fs/cgroup/memory.current 命令
       # - run:
