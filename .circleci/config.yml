@@ -47,6 +47,7 @@ jobs:
             docker exec ipc_base ipcs
             docker ps
             cat /sys/fs/cgroup/memory.current
+            cat /sys/fs/cgroup/memory.max
             docker exec ipc_base cat /sys/fs/cgroup/memory.current
             docker exec ipc_base cat /sys/fs/cgroup/memory.max
 
