@@ -29,12 +29,12 @@ jobs:
       - run:
           name: Run Container 1
           command: |
-            docker run --ipc=shareable --memory=100M --name ipc_base potatoxz14/basic:v0 sleep inf
+            docker run -d --ipc=shareable --memory=100M --name ipc_base potatoxz14/basic:v0 sleep inf
 
       - run:
           name: Run Container 2
           command: |
-            docker run -it --restart always --ipc=container:ipc_base --memory=200M potatoxz14/defense_pressure:v2 /home/shm_create 1
+            docker run -it --ipc=container:ipc_base --memory=200M potatoxz14/defense_pressure:v2 /home/shm_create 1
       # 步骤3: 进入容器1并运行命令
       - run:
           name: Check IPCS in Container 1
