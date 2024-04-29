@@ -41,7 +41,7 @@ jobs:
           command: |
             docker exec ipc_base ipcs
             docker ps
-            ls /sys/fs/cgroup/system.slice
+            ls /sys/fs/cgroup/
 
       # # 步骤4: 运行 cat /sys/fs/cgroup/memory.current 命令
       # - run:
