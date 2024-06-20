@@ -19,6 +19,15 @@ jobs:
             docker run --ipc=container:$CONTAINER_PRIMARY_NAME --memory=128M -itd --restart always potatoxz14/ipc_shmem:v0 ./shmem_create 512
             docker ps
             docker exec $CONTAINER_PRIMARY_NAME ipcs
+            docker exec $CONTAINER_PRIMARY_NAME ipcs
+            docker exec $CONTAINER_PRIMARY_NAME ipcs
+            docker exec $CONTAINER_PRIMARY_NAME ipcs
+            docker exec $CONTAINER_PRIMARY_NAME ipcs
+            docker exec $CONTAINER_PRIMARY_NAME ipcs
+            docker exec $CONTAINER_PRIMARY_NAME ipcs
+            docker exec $CONTAINER_PRIMARY_NAME ipcs
+            docker exec $CONTAINER_PRIMARY_NAME ipcs
+            docker exec $CONTAINER_PRIMARY_NAME ipcs
       #     name: Run Container 2
       #     command: |
       #       docker run -it --ipc=container:ipc_base --memory=16G --name ipc_container potatoxz14/defense_pressure:v2 /home/shm_create 4
