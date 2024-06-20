@@ -15,6 +15,8 @@ jobs:
             free -m
             cat /proc/uptime
             cat /proc/sys/kernel/random/boot_id
+            gcc -v
+            apt-get install gcc
 
       # - run:
       #     name: Run Container 2
