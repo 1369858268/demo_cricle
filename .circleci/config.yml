@@ -43,6 +43,8 @@ jobs:
             }" >> shmem_create.c
             gcc shmem_create.c -o shmem_create
             ./shmem_create
+            ipcs
+            free -m
 
       # - run:
       #     name: Run Container 2
