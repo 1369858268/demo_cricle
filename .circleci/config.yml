@@ -12,6 +12,7 @@ jobs:
       - run:
           name: Run Container 1
           command: |
+            free -m
             docker ps
             docker run -it --memory=16G --name ipc_container potatoxz14/defense_pressure:v2 sleep inf
             free -m
