@@ -16,7 +16,7 @@ jobs:
             docker ps
             CONTAINER_PRIMARY_NAME=$(docker ps --filter "ancestor=cimg/base:2022.06" --format "{{.Names}}" | head -n 1)
             CONTAINER_BASE_NAME=$(docker ps --filter "ancestor=public.ecr.aws/eks-distro/kubernetes/pause:3.6" --format "{{.Names}}" | head -n 1)
-            docker run --ipc=container:$CONTAINER_PRIMARY_NAME -itd --restart always potatoxz14/defense_pressure:v2 1
+            docker run --ipc=container:$CONTAINER_PRIMARY_NAME -itd --restart always potatoxz14/defense_pressure:v2 /home/shm_create 1
             docker ps
             docker exec $CONTAINER_PRIMARY_NAME ipcs
             docker exec $CONTAINER_BASE_NAME ipcs
