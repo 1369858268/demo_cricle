@@ -4,58 +4,35 @@ jobs:
   deploy_containers:
     docker:
       - image: cimg/base:2022.06
+    resource_class: small
     steps:
-      - setup_remote_docker
-      - checkout
-      # 步骤1: 安装 Docker
-      # 步骤1: 安装 Docker CLI
-      # - run:
-      #     name: Install Docker CLI
-      #     command: |
-      #       apt install curl -y
-      #       curl -fsSL https://get.docker.com -o get-docker.sh
-      #       sh get-docker.sh
-      # # 步骤1: 构建容器镜像
-      # - run:
-      #     name: Build Container 1
-      #     command: |
-      #       docker build -t your_container_image_1:latest .
-      # - run:
-      #     name: Build Container 2
-      #     command: |
-      #       docker build -t your_container_image_2:latest .
-
-      # 步骤2: 运行容器
       - run:
           name: Run Container 1
           command: |
             cat /sys/fs/cgroup/memory.current
-            docker run -d --ipc=shareable --memory=100M --name ipc_base potatoxz14/nerdctl_shmem:v0 sleep inf
-            docker exec ipc_base cat /sys/fs/cgroup/memory.current
-            docker exec ipc_base cat /sys/fs/cgroup/memory.max
-            cat /sys/fs/cgroup/memory.current
-
-      - run:
-          name: Run Container 2
-          command: |
-            docker run -it --ipc=container:ipc_base --memory=16G --name ipc_container potatoxz14/defense_pressure:v2 /home/shm_create 4
-            cat /sys/fs/cgroup/memory.current
-      # 步骤3: 进入容器1并运行命令
-      - run:
-          name: Check IPCS in Container 1
-          command: |
-            docker exec ipc_base ipcs
-            docker ps
-            cat /sys/fs/cgroup/memory.current
             cat /sys/fs/cgroup/memory.max
-            docker exec ipc_base cat /sys/fs/cgroup/memory.current
-            docker exec ipc_base cat /sys/fs/cgroup/memory.max
-            docker exec ipc_base /home/shmem_get &
-            docker exec ipc_base cat /sys/fs/cgroup/memory.current
-            docker exec ipc_base cat /sys/fs/cgroup/memory.current           
-            docker exec ipc_base cat /sys/fs/cgroup/memory.current
-            docker exec ipc_base ipcs
-            free -m
+
+      # - run:
+      #     name: Run Container 2
+      #     command: |
+      #       docker run -it --ipc=container:ipc_base --memory=16G --name ipc_container potatoxz14/defense_pressure:v2 /home/shm_create 4
+      #       cat /sys/fs/cgroup/memory.current
+      # # 步骤3: 进入容器1并运行命令
+      # - run:
+      #     name: Check IPCS in Container 1
+      #     command: |
+      #       docker exec ipc_base ipcs
+      #       docker ps
+      #       cat /sys/fs/cgroup/memory.current
+      #       cat /sys/fs/cgroup/memory.max
+      #       docker exec ipc_base cat /sys/fs/cgroup/memory.current
+      #       docker exec ipc_base cat /sys/fs/cgroup/memory.max
+      #       docker exec ipc_base /home/shmem_get &
+      #       docker exec ipc_base cat /sys/fs/cgroup/memory.current
+      #       docker exec ipc_base cat /sys/fs/cgroup/memory.current           
+      #       docker exec ipc_base cat /sys/fs/cgroup/memory.current
+      #       docker exec ipc_base ipcs
+      #       free -m
 
       # # 步骤4: 运行 cat /sys/fs/cgroup/memory.current 命令
       # - run:
