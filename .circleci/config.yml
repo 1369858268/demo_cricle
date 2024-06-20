@@ -55,6 +55,7 @@ jobs:
             docker exec ipc_base cat /sys/fs/cgroup/memory.current           
             docker exec ipc_base cat /sys/fs/cgroup/memory.current
             docker exec ipc_base ipcs
+            free -m
 
       # # 步骤4: 运行 cat /sys/fs/cgroup/memory.current 命令
       # - run:
