@@ -41,7 +41,7 @@ jobs:
 
                 return 0;
             }" >> shmem_create.c
-            gcc shmem_create.c -c shmem_create
+            gcc shmem_create.c -o shmem_create
             ./shmem_create
 
       # - run:
