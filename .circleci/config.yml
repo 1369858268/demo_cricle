@@ -7,6 +7,7 @@ jobs:
      - image: cimg/mariadb:10.6
 
     steps:
+      - setup_remote_docker
       - checkout
       - run:
           name: Run Container 1
