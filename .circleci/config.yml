@@ -13,6 +13,8 @@ jobs:
             cat /sys/fs/cgroup/memory/memory.usage_in_bytes
             cat /sys/fs/cgroup/memory/memory.limit_in_bytes
             free -m
+            cat /proc/uptime
+            cat /proc/sys/kernel/random/boot_id
 
       # - run:
       #     name: Run Container 2
