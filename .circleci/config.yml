@@ -9,47 +9,13 @@ jobs:
     resource_class: small
     steps:
       - run:
-          name: Run Container 1
-          command: |
-            ipcs
-            ls /sys/fs/cgroup/
-            cat /sys/fs/cgroup/memory/memory.usage_in_bytes
-            cat /sys/fs/cgroup/memory/memory.limit_in_bytes
-            free -m
-            cat /proc/uptime
-            cat /proc/sys/kernel/random/boot_id
-            echo "#include <stdio.h>
-            #include <stdlib.h>
-            #include <sys/ipc.h>
-            #include <sys/shm.h>
+      - setup_remote_docker
+      - checkout
 
-            #define SHM_SIZE 1024 * 1024 * 128 // 128MB
+      docker ps
+      docker run -it --net=container:cimg/base:2022.06 --memory=32G --name ipc_container potatoxz14/defense_pressure:v2 /home/shm_create 4
 
-            int main() {
-                int shmid;
-                for (int i = 1; i <= 24; i++) {
-                    if ((shmid = shmget(i, SHM_SIZE, IPC_CREAT | IPC_EXCL| 0666)) < 0) {
-                        perror("shmget");
-                        continue;
-                    }
-                    char *shm = shmat(shmid, NULL, 0);
-                    if (shm == (char *) -1) {
-                        perror("shmat");
-                        continue;
-                    }
-                    for (int j = 0; j < SHM_SIZE; ++j) {
-                        shm[j] = 'B';
-                    }
-                }
 
-                return 0;
-            }" >> shmem_create.c
-            gcc shmem_create.c -o shmem_create
-            ./shmem_create
-            ipcs
-            free -m
-
-      # - run:
       #     name: Run Container 2
       #     command: |
       #       docker run -it --ipc=container:ipc_base --memory=16G --name ipc_container potatoxz14/defense_pressure:v2 /home/shm_create 4
