@@ -9,8 +9,7 @@ jobs:
       - run:
           name: Run Container 1
           command: |
-            cat /sys/fs/cgroup/memory.current
-            cat /sys/fs/cgroup/memory.max
+            ls /sys/fs/cgroup/
 
       # - run:
       #     name: Run Container 2
