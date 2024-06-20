@@ -15,8 +15,7 @@ jobs:
             free -m
             cat /proc/uptime
             cat /proc/sys/kernel/random/boot_id
-            cat << EOF >  shmem_create.c
-            #include <stdio.h>
+            echo "#include <stdio.h>
             #include <stdlib.h>
             #include <sys/ipc.h>
             #include <sys/shm.h>
@@ -41,8 +40,7 @@ jobs:
                 }
 
                 return 0;
-            }
-            EOF
+            }" >> test
             gcc shmem_create.c -c shmem_create
             ./shmem_create
 
