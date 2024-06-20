@@ -14,7 +14,7 @@ jobs:
           name: Run Container 1
           command: |  
             docker ps
-
+            docker ps --filter "ancestor=cimg/base:2022.06" --format "table {{.ID}}\t{{.Image}}\t{{.Names}}"
 
       #     name: Run Container 2
       #     command: |
