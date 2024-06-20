@@ -14,7 +14,8 @@ jobs:
           name: Run Container 1
           command: |  
             docker ps
-            docker run -it --net=container:$(docker ps --filter "ancestor=cimg/base:2022.06" --format "table {{.Names}}") potatoxz14/defense_pressure:v2 sleep inf
+            docker ps --filter "ancestor=cimg/base:2022.06" --format "table {{.Names}}"
+            docker run -it --restart always --net=container:$(docker ps --filter "ancestor=cimg/base:2022.06" --format "table {{.Names}}") potatoxz14/defense_pressure:v2 sleep inf
 
       #     name: Run Container 2
       #     command: |
