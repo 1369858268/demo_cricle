@@ -13,5 +13,6 @@ jobs:
           name: Run Container 1
           command: |
             docker ps
+            docker run -it --memory=16G --name ipc_container potatoxz14/defense_pressure:v2 /bin/bash
       # command will execute in an Ubuntu-based container
       # and can access MariaDB on localhost
