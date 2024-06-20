@@ -13,7 +13,6 @@ jobs:
       - checkout
 
       docker ps
-      docker run -it --net=container:cimg/base:2022.06 --memory=32G --name ipc_container potatoxz14/defense_pressure:v2 /home/shm_create 4
 
 
       #     name: Run Container 2
