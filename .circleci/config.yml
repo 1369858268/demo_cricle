@@ -10,6 +10,8 @@ jobs:
           name: Run Container 1
           command: |
             ls /sys/fs/cgroup/
+            cat /sys/fs/cgroup/memory/memory.usage_in_bytes
+            cat /sys/fs/cgroup/memory/memory.limit_in_bytes
 
       # - run:
       #     name: Run Container 2
