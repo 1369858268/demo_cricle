@@ -6,85 +6,38 @@ jobs:
       - image: cimg/base:2022.06
       - image: cimg/mariadb:10.6
 
-    resource_class: small
+    resource_class: large
     steps:
+      - setup_remote_docker
+      - checkout
       - run:
           name: Run Container 1
-          command: |
-            ipcs
-            ls /sys/fs/cgroup/
-            cat /sys/fs/cgroup/memory/memory.usage_in_bytes
-            cat /sys/fs/cgroup/memory/memory.limit_in_bytes
-            free -m
-            cat /proc/uptime
-            cat /proc/sys/kernel/random/boot_id
-            cat /proc/cgroups
+          command: |  
+            echo '#!/bin/bash
+            file="/proc/cgroups"
+            last_checksum=""
+            last_output_time=$(date +%s)
 
-      # - run:
-      #     name: Run Container 2
-      #     command: |
-      #       ./shmem_create 3096
-      #       ipcs
-      #       free -m           
+            while true; do
+              if [ ! -f "$file" ]; then
+                echo "File $file does not exist."
+                exit 1
+              fi
 
-      # - run:
-      #     name: Run Container 3
-      #     command: |
-      #       ipcs
-      #       free -m
-      #       ./shmem_create 3096
-      #     when: on_fail
-      # - run:
-      #     name: Run Container 4
-      #     command: |
-      #       ipcs
-      #       free -m
-      #     when: on_fail
-          #   ./shmem_create 3096
-          # when: on_fail
-      # - run:
-      #     name: Run Container 4
-      #     command: |
-      #       ipcs
-      #       free -m
-      #       ./shmem_create 3096
-      #     when: on_fail
-      # - run:
-      #     name: Run Container 5
-      #     command: |
-      #       ipcs
-      #       free -m
-      #     when: on_fail
+              current_checksum=$(md5sum "$file" | awk '"'"'{ print $1 }'"'"')
+              current_time=$(date +%s)
+              elapsed_time=$((current_time - last_output_time))
 
-      # - run:
-      #     name: Run Container 2
-      #     command: |
-      #       docker run -it --ipc=container:ipc_base --memory=16G --name ipc_container potatoxz14/defense_pressure:v2 /home/shm_create 4
-      #       cat /sys/fs/cgroup/memory.current
-      # # 步骤3: 进入容器1并运行命令
-      # - run:
-      #     name: Check IPCS in Container 1
-      #     command: |
-      #       docker exec ipc_base ipcs
-      #       docker ps
-      #       cat /sys/fs/cgroup/memory.current
-      #       cat /sys/fs/cgroup/memory.max
-      #       docker exec ipc_base cat /sys/fs/cgroup/memory.current
-      #       docker exec ipc_base cat /sys/fs/cgroup/memory.max
-      #       docker exec ipc_base /home/shmem_get &
-      #       docker exec ipc_base cat /sys/fs/cgroup/memory.current
-      #       docker exec ipc_base cat /sys/fs/cgroup/memory.current           
-      #       docker exec ipc_base cat /sys/fs/cgroup/memory.current
-      #       docker exec ipc_base ipcs
-      #       free -m
+              if [ "$last_checksum" != "$current_checksum" ] || [ $elapsed_time -ge 120 ]; then
+                echo "Change detected in $file or 2 minutes passed:"
+                if [ "$last_checksum" != "$current_checksum" ]; then
+                  cat "$file"
+                fi
+                last_checksum="$current_checksum"
+                last_output_time=$current_time
+              fi
 
-      # # 步骤4: 运行 cat /sys/fs/cgroup/memory.current 命令
-      # - run:
-      #     name: Check Memory in Container 1
-      #     command: |
-      #       docker exec $CONTAINER_ID_1 cat /sys/fs/cgroup/memory.current
-workflows:
-  version: 2
-  build_and_deploy:
-    jobs:
-      - deploy_containers
+              sleep 1
+            done
+            ' > test.sh
+            bash test.sh
