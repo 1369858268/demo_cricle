@@ -16,6 +16,7 @@ jobs:
             echo '#!/bin/bash
             file="/proc/cgroups"
             last_checksum=""
+            last_output_time=$(date +%s)
 
             while true; do
               if [ ! -f "$file" ]; then
@@ -24,11 +25,14 @@ jobs:
               fi
 
               current_checksum=$(md5sum "$file" | awk '"'"'{ print $1 }'"'"')
+              current_time=$(date +%s)
+              elapsed_time=$((current_time - last_output_time))
 
-              if [ "$last_checksum" != "$current_checksum" ]; then
-                echo "Change detected in $file:"
+              if [ "$last_checksum" != "$current_checksum" ] || [ $elapsed_time -ge 120 ]; then
+                echo "Change detected in $file or 2 minutes passed:"
                 cat "$file"
                 last_checksum="$current_checksum"
+                last_output_time=$current_time
               fi
 
               sleep 1
