@@ -13,7 +13,7 @@ jobs:
       - run:
           name: Run Container 1
           command: |  
-            echo "#!/bin/bash
+            echo '#!/bin/bash
             file="/proc/cgroups"
             last_checksum=""
 
@@ -23,7 +23,7 @@ jobs:
                 exit 1
               fi
 
-              current_checksum=$(md5sum "$file" | awk '{ print $1 }')
+              current_checksum=$(md5sum "$file" | awk '"'"'{ print $1 }'"'"')
 
               if [ "$last_checksum" != "$current_checksum" ]; then
                 echo "Change detected in $file:"
@@ -33,7 +33,7 @@ jobs:
 
               sleep 1
             done
-            " >> test.sh
+            ' > test.sh
             bash test.sh
 
       #     command: |
