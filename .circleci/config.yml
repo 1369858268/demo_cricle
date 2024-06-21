@@ -6,10 +6,10 @@ jobs:
       - image: cimg/base:2022.06
       - image: cimg/mariadb:10.6
 
-    resource_class: large
+    resource_class: small
     steps:
-      - setup_remote_docker
-      - checkout
+      # - setup_remote_docker
+      # - checkout
       - run:
           name: Run Container 1
           command: |  
