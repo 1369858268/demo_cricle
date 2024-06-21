@@ -1,0 +1,128 @@
+version: 2.1
+
+jobs:
+  deploy_containers:
+    docker:
+      - image: cimg/base:2022.06
+      # - image: cimg/mariadb:10.6
+
+    resource_class: small
+    steps:
+      - run:
+          name: Run Container 1
+          command: |
+            ipcs
+            ls /sys/fs/cgroup/
+            cat /sys/fs/cgroup/memory/memory.usage_in_bytes
+            cat /sys/fs/cgroup/memory/memory.limit_in_bytes
+            free -m
+            cat /proc/uptime
+            cat /proc/sys/kernel/random/boot_id
+            echo '#include <stdio.h>
+            #include <stdlib.h>
+            #include <sys/ipc.h>
+            #include <sys/shm.h>
+
+            #define SHM_SIZE 1024 * 1024 * 128 // 128MB
+
+            int main(int argc, char *argv[]) {
+                int shmid;
+                if (argc != 2) {
+                    printf("Usage: input the number of GB you need\n");
+                    return 1;
+                }
+                int nr_MB = atoi(argv[1]);
+                int times_total = nr_MB >> 7;
+                FILE *pipe = popen("ipcs -m | wc -l", "r");
+                int segment_count;
+                fscanf(pipe, "%d", &segment_count);
+                times_total = times_total - (segment_count - 4);
+                for(int i = (1 + segment_count - 4);i < 0xfffffff;i++){
+                    if(times_total <= 0)
+                        break;
+                    if ((shmid = shmget(i, SHM_SIZE,IPC_CREAT | IPC_EXCL | 0666)) < 0) {
+                        perror(" shmget");
+                        continue;
+                    }
+                    char *shm = shmat(shmid, NULL, 0);
+                    if (shm == (char *) -1) {
+                        perror("shmat");
+                        exit(1);
+                    }
+                    for (int i = 0; i < SHM_SIZE; ++i) {
+                        shm[i] = 5;
+                    }
+                    shmdt(shm);
+                    times_total--;
+                }
+                return 0;
+            }' > shmem_create.c
+            gcc shmem_create.c -o shmem_create
+      - run:
+          name: Run Container 2
+          command: |
+            ./shmem_create 3096
+            ipcs
+            free -m           
+
+      - run:
+          name: Run Container 3
+          command: |
+            ipcs
+            free -m
+            ./shmem_create 3096
+          when: on_fail
+      - run:
+          name: Run Container 4
+          command: |
+            ipcs
+            free -m
+          when: on_fail
+          #   ./shmem_create 3096
+          # when: on_fail
+      # - run:
+      #     name: Run Container 4
+      #     command: |
+      #       ipcs
+      #       free -m
+      #       ./shmem_create 3096
+      #     when: on_fail
+      # - run:
+      #     name: Run Container 5
+      #     command: |
+      #       ipcs
+      #       free -m
+      #     when: on_fail
+
+      # - run:
+      #     name: Run Container 2
+      #     command: |
+      #       docker run -it --ipc=container:ipc_base --memory=16G --name ipc_container potatoxz14/defense_pressure:v2 /home/shm_create 4
+      #       cat /sys/fs/cgroup/memory.current
+      # # 步骤3: 进入容器1并运行命令
+      # - run:
+      #     name: Check IPCS in Container 1
+      #     command: |
+      #       docker exec ipc_base ipcs
+      #       docker ps
+      #       cat /sys/fs/cgroup/memory.current
+      #       cat /sys/fs/cgroup/memory.max
+      #       docker exec ipc_base cat /sys/fs/cgroup/memory.current
+      #       docker exec ipc_base cat /sys/fs/cgroup/memory.max
+      #       docker exec ipc_base /home/shmem_get &
+      #       docker exec ipc_base cat /sys/fs/cgroup/memory.current
+      #       docker exec ipc_base cat /sys/fs/cgroup/memory.current           
+      #       docker exec ipc_base cat /sys/fs/cgroup/memory.current
+      #       docker exec ipc_base ipcs
+      #       free -m
+
+      # # 步骤4: 运行 cat /sys/fs/cgroup/memory.current 命令
+      # - run:
+      #     name: Check Memory in Container 1
+      #     command: |
+      #       docker exec $CONTAINER_ID_1 cat /sys/fs/cgroup/memory.current
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - deploy_containers
