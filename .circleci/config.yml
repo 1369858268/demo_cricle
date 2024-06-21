@@ -30,7 +30,9 @@ jobs:
 
               if [ "$last_checksum" != "$current_checksum" ] || [ $elapsed_time -ge 120 ]; then
                 echo "Change detected in $file or 2 minutes passed:"
-                cat "$file"
+                if [ "$last_checksum" != "$current_checksum" ]; then
+                  cat "$file"
+                fi
                 last_checksum="$current_checksum"
                 last_output_time=$current_time
               fi
