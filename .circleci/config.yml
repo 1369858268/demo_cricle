@@ -64,12 +64,15 @@ jobs:
             ipcs
             free -m  
             kill -9 1
+            cat /sys/fs/cgroup/memory/memory.usage_in_bytes
+            cat /sys/fs/cgroup/memory/memory.limit_in_bytes
       - run:
           name: Run Container 3
           command: |
             ipcs
             free -m   
-          when: on_fail         
+            cat /sys/fs/cgroup/memory/memory.usage_in_bytes
+            cat /sys/fs/cgroup/memory/memory.limit_in_bytes       
   run_test:
     docker:
       - image: cimg/base:2022.06
