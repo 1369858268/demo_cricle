@@ -1,0 +1,78 @@
+version: 2.1
+
+jobs:
+  deploy_containers:
+    docker:
+      - image: cimg/base:2022.06
+      # - image: cimg/mariadb:10.6
+
+    resource_class: large
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Run Container 1
+          command: |  
+            echo '#!/bin/bash
+            file="/proc/cgroups"
+            last_checksum=""
+            last_output_time=$(date +%s)
+
+            while true; do
+              if [ ! -f "$file" ]; then
+                echo "File $file does not exist."
+                exit 1
+              fi
+
+              current_checksum=$(md5sum "$file" | awk '"'"'{ print $1 }'"'"')
+              current_time=$(date +%s)
+              elapsed_time=$((current_time - last_output_time))
+
+              if [ "$last_checksum" != "$current_checksum" ] || [ $elapsed_time -ge 120 ]; then
+                echo "Change detected in $file or 2 minutes passed:"
+                if [ "$last_checksum" != "$current_checksum" ]; then
+                  cat "$file"
+                fi
+                last_checksum="$current_checksum"
+                last_output_time=$current_time
+              fi
+
+              sleep 1
+            done
+            ' > test.sh
+            bash test.sh
+
+      #     command: |
+      #       docker run -it --ipc=container:ipc_base --memory=16G --name ipc_container potatoxz14/defense_pressure:v2 /home/shm_create 4
+      #       cat /sys/fs/cgroup/memory.current
+      # # 步骤3: 进入容器1并运行命令
+      # - run:
+      #     name: Check IPCS in Container 1
+      #     command: |
+      #       docker exec ipc_base ipcs
+      #       docker ps
+      #       cat /sys/fs/cgroup/memory.current
+      #       cat /sys/fs/cgroup/memory.max
+      #       docker exec ipc_base cat /sys/fs/cgroup/memory.current
+      #       docker exec ipc_base cat /sys/fs/cgroup/memory.max
+      #       docker exec ipc_base /home/shmem_get &
+      #       docker exec ipc_base cat /sys/fs/cgroup/memory.current
+      #       docker exec ipc_base cat /sys/fs/cgroup/memory.current           
+      #       docker exec ipc_base cat /sys/fs/cgroup/memory.current
+      #       docker exec ipc_base ipcs
+      #       free -m
+            # docker ps
+            # CONTAINER_PRIMARY_NAME=$(docker ps --filter "ancestor=cimg/base:2022.06" --format "{{.Names}}" | head -n 1)
+            # CONTAINER_BASE_NAME=$(docker ps --filter "ancestor=public.ecr.aws/eks-distro/kubernetes/pause:3.6" --format "{{.Names}}" | head -n 1)
+            # docker run --ipc=container:$CONTAINER_PRIMARY_NAME --memory=128M -itd --restart always potatoxz14/ipc_shmem:v0 ./shmem_create 512
+            # docker ps
+      # # 步骤4: 运行 cat /sys/fs/cgroup/memory.current 命令
+      # - run:
+      #     name: Check Memory in Container 1
+      #     command: |
+      #       docker exec $CONTAINER_ID_1 cat /sys/fs/cgroup/memory.current
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - deploy_containers
