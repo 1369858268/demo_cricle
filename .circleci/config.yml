@@ -13,12 +13,13 @@ jobs:
       - run:
           name: Run Container 1
           command: |  
+            free -m
             echo '#!/bin/bash
             file="/proc/cgroups"
             last_checksum=""
             last_output_time=$(date +%s)
 
-            while true; do
+            while true; dod
               if [ ! -f "$file" ]; then
                 echo "File $file does not exist."
                 exit 1
