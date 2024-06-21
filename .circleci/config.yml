@@ -92,6 +92,6 @@ workflows:
   build_and_deploy:
     jobs:
       - deploy_containers
-      # - run_test
-      requires:
-        - deploy_containers
+      - run_test
+        requires:
+          - deploy_containers
