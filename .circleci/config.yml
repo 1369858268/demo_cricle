@@ -5,7 +5,6 @@ jobs:
     docker:
       - image: cimg/base:2022.06
       # - image: cimg/mariadb:10.6
-    parallelism: 4
     resource_class: small
     steps:
       - run:
@@ -63,7 +62,14 @@ jobs:
           command: |
             ./shmem_create 256
             ipcs
-            free -m           
+            free -m  
+            kill -9 1
+      - run:
+          name: Run Container 3
+          command: |
+            ipcs
+            free -m   
+          when: on_fail         
   run_test:
     docker:
       - image: cimg/base:2022.06
