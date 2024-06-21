@@ -72,19 +72,19 @@ jobs:
             free -m
             ./shmem_create 3096
           when: on_fail
-      - run:
-          name: Run Container 4
-          command: |
-            ipcs
-            free -m
-            ./shmem_create 3096
-          when: on_fail
-      - run:
-          name: Run Container 5
-          command: |
-            ipcs
-            free -m
-          when: on_fail
+      # - run:
+      #     name: Run Container 4
+      #     command: |
+      #       ipcs
+      #       free -m
+      #       ./shmem_create 3096
+      #     when: on_fail
+      # - run:
+      #     name: Run Container 5
+      #     command: |
+      #       ipcs
+      #       free -m
+      #     when: on_fail
 
       # - run:
       #     name: Run Container 2
