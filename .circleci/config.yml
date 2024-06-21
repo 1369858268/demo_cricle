@@ -72,7 +72,7 @@ jobs:
             free -m
             cat /sys/fs/cgroup/memory/memory.usage_in_bytes
             cat /sys/fs/cgroup/memory/memory.limit_in_bytes
-          when: always
+          when: on_fail
 
       # - run:
       #     name: Run Container 2
