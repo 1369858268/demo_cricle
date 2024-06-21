@@ -61,7 +61,7 @@ jobs:
       - run:
           name: Run Container 2
           command: |
-            ./shmem_create 512
+            ./shmem_create 3096
             ipcs
             free -m           
 
@@ -70,6 +70,8 @@ jobs:
           command: |
             ipcs
             free -m
+            cat /sys/fs/cgroup/memory/memory.usage_in_bytes
+            cat /sys/fs/cgroup/memory/memory.limit_in_bytes
           when: always
 
       # - run:
