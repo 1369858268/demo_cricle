@@ -62,6 +62,8 @@ jobs:
           name: Run Container 2
           command: |
             ./shmem_create 512
+            ipcs
+            free -m           
           when: on_fail
       - run:
           name: Run Container 3
