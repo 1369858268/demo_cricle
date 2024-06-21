@@ -41,3 +41,8 @@ jobs:
             done
             ' > test.sh
             bash test.sh
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - deploy_containers
