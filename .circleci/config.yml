@@ -64,12 +64,13 @@ jobs:
             ./shmem_create 512
             ipcs
             free -m           
-          # when: on_fail
+
       - run:
           name: Run Container 3
           command: |
             ipcs
             free -m
+          when: always
 
       # - run:
       #     name: Run Container 2
