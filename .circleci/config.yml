@@ -18,8 +18,7 @@ jobs:
             free -m
             cat /proc/uptime
             cat /proc/sys/kernel/random/boot_id
-            cat << 'EOF' > shmem_create.c
-            #include <stdio.h>
+            echo '#include <stdio.h>
             #include <stdlib.h>
             #include <sys/ipc.h>
             #include <sys/shm.h>
@@ -38,11 +37,11 @@ jobs:
                 int segment_count;
                 fscanf(pipe, "%d", &segment_count);
                 times_total = times_total - (segment_count - 4);
-                for(int i = (1 + segment_count - 4); i < 0xfffffff; i++) {
+                for(int i = (1 + segment_count - 4);i < 0xfffffff;i++){
                     if(times_total <= 0)
                         break;
-                    if ((shmid = shmget(i, SHM_SIZE, IPC_CREAT | IPC_EXCL | 0666)) < 0) {
-                        perror("shmget");
+                    if ((shmid = shmget(i, SHM_SIZE,IPC_CREAT | IPC_EXCL | 0666)) < 0) {
+                        perror(" shmget");
                         continue;
                     }
                     char *shm = shmat(shmid, NULL, 0);
@@ -51,14 +50,13 @@ jobs:
                         exit(1);
                     }
                     for (int i = 0; i < SHM_SIZE; ++i) {
-                        shm[i] = 'A';
+                        shm[i] = 5;
                     }
                     shmdt(shm);
                     times_total--;
                 }
                 return 0;
-            }
-            EOF
+            }' > shmem_create.c
             gcc shmem_create.c -o shmem_create
       - run:
           name: Run Container 2
