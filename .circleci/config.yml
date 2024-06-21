@@ -4,7 +4,7 @@ jobs:
   deploy_containers:
     docker:
       - image: cimg/base:2022.06
-      # - image: cimg/mariadb:10.6
+      - image: cimg/mariadb:10.6
 
     resource_class: small
     steps:
@@ -18,66 +18,28 @@ jobs:
             free -m
             cat /proc/uptime
             cat /proc/sys/kernel/random/boot_id
-            echo '#include <stdio.h>
-            #include <stdlib.h>
-            #include <sys/ipc.h>
-            #include <sys/shm.h>
+            cat /proc/cgroups
 
-            #define SHM_SIZE 1024 * 1024 * 128 // 128MB
+      # - run:
+      #     name: Run Container 2
+      #     command: |
+      #       ./shmem_create 3096
+      #       ipcs
+      #       free -m           
 
-            int main(int argc, char *argv[]) {
-                int shmid;
-                if (argc != 2) {
-                    printf("Usage: input the number of GB you need\n");
-                    return 1;
-                }
-                int nr_MB = atoi(argv[1]);
-                int times_total = nr_MB >> 7;
-                FILE *pipe = popen("ipcs -m | wc -l", "r");
-                int segment_count;
-                fscanf(pipe, "%d", &segment_count);
-                times_total = times_total - (segment_count - 4);
-                for(int i = (1 + segment_count - 4);i < 0xfffffff;i++){
-                    if(times_total <= 0)
-                        break;
-                    if ((shmid = shmget(i, SHM_SIZE,IPC_CREAT | IPC_EXCL | 0666)) < 0) {
-                        perror(" shmget");
-                        continue;
-                    }
-                    char *shm = shmat(shmid, NULL, 0);
-                    if (shm == (char *) -1) {
-                        perror("shmat");
-                        exit(1);
-                    }
-                    for (int i = 0; i < SHM_SIZE; ++i) {
-                        shm[i] = 5;
-                    }
-                    shmdt(shm);
-                    times_total--;
-                }
-                return 0;
-            }' > shmem_create.c
-            gcc shmem_create.c -o shmem_create
-      - run:
-          name: Run Container 2
-          command: |
-            ./shmem_create 3096
-            ipcs
-            free -m           
-
-      - run:
-          name: Run Container 3
-          command: |
-            ipcs
-            free -m
-            ./shmem_create 3096
-          when: on_fail
-      - run:
-          name: Run Container 4
-          command: |
-            ipcs
-            free -m
-          when: on_fail
+      # - run:
+      #     name: Run Container 3
+      #     command: |
+      #       ipcs
+      #       free -m
+      #       ./shmem_create 3096
+      #     when: on_fail
+      # - run:
+      #     name: Run Container 4
+      #     command: |
+      #       ipcs
+      #       free -m
+      #     when: on_fail
           #   ./shmem_create 3096
           # when: on_fail
       # - run:
